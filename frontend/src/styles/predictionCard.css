@@ -1,0 +1,309 @@
+/* ============================================================
+   PredictionCard.css
+   Matches global.css dark theme — no CSS variable dependencies.
+   Fonts: 'DM Sans' (body) + 'Space Mono' (mono) from global.css.
+   Playfair Display loaded here for display numerals.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap');
+
+/* ── Card shell ── */
+.pc-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(212, 132, 74, 0.15);
+  border-left: 4px solid rgba(212, 132, 74, 0.15);
+  border-radius: 16px;
+  padding: 1.75rem 1.75rem 1.35rem;
+  font-family: 'DM Sans', sans-serif;
+  color: #f0ece4;
+  overflow: hidden;
+  box-shadow:
+    0 2px 0 rgba(212, 132, 74, 0.08),
+    0 16px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: pc-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Left-border accent per state */
+.pc-card--confirmed { border-left-color: #4ecb8d; }
+.pc-card--false     { border-left-color: #e06b4a; }
+
+/* Subtle corner glow per state */
+.pc-card--confirmed::before,
+.pc-card--false::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.pc-card--confirmed::before {
+  background: radial-gradient(ellipse at 0% 0%, rgba(78, 203, 141, 0.07) 0%, transparent 60%);
+}
+.pc-card--false::before {
+  background: radial-gradient(ellipse at 0% 0%, rgba(224, 107, 74, 0.07) 0%, transparent 60%);
+}
+
+/* Corner watermark — uses ::after, sits above ::before */
+.pc-card::after {
+  content: "KOI";
+  position: absolute;
+  bottom: 1rem;
+  right: 1.5rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 4.5rem;
+  font-style: italic;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── Verdict row ── */
+.pc-verdict-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.pc-verdict-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pc-card--confirmed .pc-verdict-badge { color: #4ecb8d; }
+.pc-card--false     .pc-verdict-badge { color: #e06b4a; }
+
+.pc-verdict-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pc-pulse 2.4s ease infinite;
+}
+
+.pc-card--confirmed .pc-verdict-dot { background: #4ecb8d; }
+.pc-card--false     .pc-verdict-dot { background: #e06b4a; }
+
+.pc-divider {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.pc-report-id {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240, 236, 228, 0.25);
+  white-space: nowrap;
+}
+
+/* ── Hero stats ── */
+.pc-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.pc-stat {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1.1rem 1.1rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pc-stat-value {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #f0ece4;
+}
+
+.pc-stat-unit,
+.pc-stat-pct {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(240, 236, 228, 0.60);
+  margin-left: 2px;
+}
+
+.pc-stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(240, 236, 228, 0.42);
+  margin-top: 0.45rem;
+}
+
+.pc-stat-sub {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #d4844a;  /* matches --copper / page amber accent */
+  margin-top: 0.18rem;
+}
+
+/* Confidence arc */
+.pc-arc-svg {
+  position: absolute;
+  bottom: -2px;
+  right: 0;
+  width: 110px;
+  opacity: 0.9;
+}
+
+.pc-card--confirmed .pc-arc-track { color: rgba(78, 203, 141, 0.12); }
+.pc-card--confirmed .pc-arc-fill  { color: #4ecb8d; }
+.pc-card--false     .pc-arc-track { color: rgba(224, 107, 74, 0.12); }
+.pc-card--false     .pc-arc-fill  { color: #e06b4a; }
+
+.pc-arc-fill {
+  animation: pc-arc-draw 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+/* ── Section ── */
+.pc-section { margin-bottom: 1.35rem; }
+
+.pc-section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f0ece4;
+  margin: 0 0 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.pc-section-num {
+  color: #d4844a;
+  font-style: italic;
+}
+
+/* ── Feature rows ── */
+.pc-features { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.pc-feature-row { display: flex; flex-direction: column; gap: 0.28rem; }
+
+.pc-feature-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.pc-feature-rank {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(240, 236, 228, 0.25);
+  width: 1.6rem;
+  flex-shrink: 0;
+}
+
+.pc-feature-name {
+  font-size: 0.78rem;
+  color: rgba(240, 236, 228, 0.68);
+  flex: 1;
+}
+
+.pc-feature-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 500;
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pc-badge--pos { background: rgba(78, 203, 141, 0.12);  color: #4ecb8d; }
+.pc-badge--neg { background: rgba(224, 107, 74, 0.12);  color: #e06b4a; }
+
+.pc-feature-bar-track {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 99px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.pc-feature-bar {
+  height: 5px;
+  border-radius: 99px;
+  width: var(--bar-w, 0%);
+  animation: pc-bar-grow 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  flex-shrink: 0;
+}
+
+.pc-bar--pos { background: #4ecb8d; }
+.pc-bar--neg { background: #e06b4a; }
+
+.pc-feature-impact {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: rgba(240, 236, 228, 0.42);
+  flex-shrink: 0;
+  margin-left: auto;
+  min-width: 3.2rem;
+  text-align: right;
+}
+
+/* ── Footnote ── */
+.pc-footnote {
+  font-size: 0.7rem;
+  color: rgba(240, 236, 228, 0.25);
+  font-style: italic;
+  line-height: 1.55;
+  margin: 0;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Animations ── */
+@keyframes pc-enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pc-bar-grow {
+  from { width: 0; }
+  to   { width: var(--bar-w, 0%); }
+}
+
+@keyframes pc-arc-draw {
+  from { stroke-dasharray: 0 141.4; }
+}
+
+@keyframes pc-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 500px) {
+  .pc-hero    { grid-template-columns: 1fr; }
+  .pc-arc-svg { width: 85px; }
+}

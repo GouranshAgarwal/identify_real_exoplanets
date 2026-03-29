@@ -1,0 +1,211 @@
+/* ═══════════════════════════════════════════════
+   Global Reset + Base
+═══════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  background: #0d0d0f;
+  color: #f0ece4;
+  min-height: 100vh;
+
+  /* Subtle star-field texture */
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(212, 132, 74, 0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(184, 106, 53, 0.14) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* ═══════════════════════════════════════════════
+   Container
+═══════════════════════════════════════════════ */
+.app-container {
+  padding: 48px 36px 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════
+   Page Header
+═══════════════════════════════════════════════ */
+.page-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+/* Eyebrow — "Kepler Object of Interest · Classifier" */
+.page-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #d4844a;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.page-eyebrow-line {
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: #d4844a;
+  opacity: 0.6;
+}
+
+/* Main title */
+.page-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 20px;
+  color: #f5f0e8;
+}
+
+.page-title em {
+  font-style: normal;
+  font-weight: 600;
+  background: linear-gradient(100deg, #e8945a, #f5c08a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtitle */
+.page-subtitle {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(240, 236, 228, 0.52);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* ═══════════════════════════════════════════════
+   Grid Layout
+═══════════════════════════════════════════════ */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ═══════════════════════════════════════════════
+   Panels
+═══════════════════════════════════════════════ */
+.left-panel,
+.right-panel {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(212, 132, 74, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 28px 30px;
+  border-radius: 18px;
+  box-shadow:
+    0 2px 0px rgba(212, 132, 74, 0.08),
+    0 16px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.left-panel:hover,
+.right-panel:hover {
+  transform: translateY(-3px);
+  border-color: rgba(212, 132, 74, 0.3);
+  box-shadow:
+    0 2px 0 rgba(212, 132, 74, 0.12),
+    0 24px 52px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* ═══════════════════════════════════════════════
+   Panel Section Head  (number tag + title row)
+═══════════════════════════════════════════════ */
+.panel-section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(212, 132, 74, 0.12);
+}
+
+/* "01" / "02" badge */
+.panel-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #d4844a;
+  background: rgba(212, 132, 74, 0.1);
+  border: 1px solid rgba(212, 132, 74, 0.25);
+  border-radius: 6px;
+  padding: 4px 8px;
+  line-height: 1;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+/* Section title */
+.panel-section-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+  color: #f0ece4;
+}
+
+/* Section description */
+.panel-section-desc {
+  font-size: 0.78rem;
+  color: rgba(240, 236, 228, 0.42);
+  margin: 0;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+/* ═══════════════════════════════════════════════
+   Legacy .title (keep for backward compat)
+═══════════════════════════════════════════════ */
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ═══════════════════════════════════════════════
+   Responsive
+═══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .app-container {
+    padding: 36px 20px 48px;
+  }
+
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .app-container {
+    padding: 28px 16px 40px;
+  }
+}
