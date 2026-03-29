@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { FeatureInput } from "./FeatureInput";
-import "../../styles/StellerForm.css";
+import "../../styles/stellerForm.css";
 
 const FEATURE_GROUPS = [
   {

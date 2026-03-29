@@ -1,4 +1,4 @@
-import "../../styles/PredictionCard.css";
+import "../../styles/predictionCard.css";
 
 const FEATURE_LABELS = {
   koi_period:       "Orbital Period",
